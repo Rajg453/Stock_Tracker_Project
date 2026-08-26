@@ -6,6 +6,8 @@ import Dashboard from './pages/Dashboard';
 import Watchlist from './pages/Watchlist';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import AiAdvisor from './pages/AiAdvisor';
+import FloatingChatbot from './components/FloatingChatbot';
 import './index.css';
 
 // A simple PrivateRoute component to protect routes
@@ -27,8 +29,10 @@ function App() {
             {/* Protected Routes */}
             <Route path="/" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
             <Route path="/watchlist" element={<PrivateRoute><Watchlist /></PrivateRoute>} />
+            <Route path="/ai-advisor" element={<PrivateRoute><AiAdvisor /></PrivateRoute>} />
           </Routes>
         </div>
+        <FloatingChatbot />
       </BrowserRouter>
     </AuthProvider>
   );

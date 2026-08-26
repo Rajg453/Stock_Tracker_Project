@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
+import { Eye, EyeOff } from 'lucide-react';
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -8,6 +9,7 @@ const Login = () => {
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
   const [error, setError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -33,14 +35,29 @@ const Login = () => {
             onChange={(e) => setUsername(e.target.value)}
             required 
           />
-          <input 
-            type="password" 
-            placeholder="Password" 
-            className="input-field"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required 
-          />
+          <div style={{ position: 'relative' }}>
+            <input 
+              type={showPassword ? "text" : "password"} 
+              placeholder="Password" 
+              className="input-field"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required 
+              style={{ paddingRight: '40px' }}
+            />
+            <button 
+              type="button" 
+              onClick={() => setShowPassword(!showPassword)}
+              style={{
+                position: 'absolute', right: '10px', top: '19px', 
+                transform: 'translateY(-50%)', background: 'none', border: 'none', 
+                color: 'var(--text-color)', cursor: 'pointer', opacity: 0.7
+              }}
+              title={showPassword ? "Hide password" : "Show password"}
+            >
+              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+            </button>
+          </div>
           <button type="submit" className="btn" style={{ width: '100%' }}>Login</button>
         </form>
         <p style={{ textAlign: 'center', marginTop: '20px', color: '#94a3b8' }}>

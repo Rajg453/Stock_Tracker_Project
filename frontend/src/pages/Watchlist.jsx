@@ -3,11 +3,14 @@ import axios from 'axios';
 import StockCard from '../components/StockCard';
 import { AuthContext } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
+import { Sparkles } from 'lucide-react';
 
 const Watchlist = () => {
   const [watchlistStocks, setWatchlistStocks] = useState([]);
   const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
+  const [analysis, setAnalysis] = useState('');
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
 
   const config = {
     headers: { Authorization: `Bearer ${user?.token}` }
@@ -38,11 +41,56 @@ const Watchlist = () => {
     }
   };
 
+  const analyzePortfolio = async () => {
+    if (watchlistStocks.length === 0) return;
+    setIsAnalyzing(true);
+    setAnalysis('');
+    try {
+      const symbols = watchlistStocks.map(s => `${s.name} (${s.symbol})`).join(', ');
+      const question = `Analyze this stock portfolio concisely in 2-3 short paragraphs, mentioning diversification, risks, and overall outlook. Do not use formatting like markdown bolding if possible. Portfolio: ${symbols}`;
+      
+      const response = await fetch('http://localhost:5000/api/ai', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ question }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to fetch AI analysis from server.');
+      }
+      
+      setAnalysis(data.answer);
+    } catch (error) {
+      console.error("AI Error:", error);
+      setAnalysis("Sorry, AI analysis failed. Please try again later.");
+    } finally {
+      setIsAnalyzing(false);
+    }
+  };
+
   if (loading) return <div style={{ textAlign: 'center', marginTop: '50px' }}>Loading...</div>;
 
   return (
     <div>
-      <h1 className="text-gradient" style={{ marginBottom: '30px' }}>Your Watchlist</h1>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
+        <h1 className="text-gradient">Your Watchlist</h1>
+        {watchlistStocks.length > 0 && (
+          <button className="btn" onClick={analyzePortfolio} disabled={isAnalyzing} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <Sparkles size={16} /> {isAnalyzing ? 'Analyzing...' : 'Analyze with AI'}
+          </button>
+        )}
+      </div>
+
+      {analysis && (
+        <div className="glass-panel animate-fade-in" style={{ padding: '20px', marginBottom: '30px', borderLeft: '4px solid var(--accent-color)' }}>
+          <h3 style={{ margin: '0 0 10px 0', color: 'var(--accent-color)' }}>AI Portfolio Analysis</h3>
+          <p style={{ margin: 0, lineHeight: '1.6', whiteSpace: 'pre-wrap' }}>{analysis}</p>
+        </div>
+      )}
       
       {watchlistStocks.length === 0 ? (
         <div className="glass-panel" style={{ padding: '40px', textAlign: 'center' }}>
