@@ -10,14 +10,17 @@ const Login = () => {
   const navigate = useNavigate();
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       await login(username, password);
       navigate('/');
     } catch (err) {
       setError(err.response?.data?.message || 'Login failed');
+      setLoading(false);
     }
   };
 
@@ -58,7 +61,9 @@ const Login = () => {
               {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
           </div>
-          <button type="submit" className="btn" style={{ width: '100%' }}>Login</button>
+          <button type="submit" className="btn" style={{ width: '100%' }} disabled={loading}>
+            {loading ? 'Logging in...' : 'Login'}
+          </button>
         </form>
         <p style={{ textAlign: 'center', marginTop: '20px', color: '#94a3b8' }}>
           Don't have an account? <Link to="/register" style={{ color: 'var(--accent-color)' }}>Sign up</Link>

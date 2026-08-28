@@ -23,7 +23,7 @@ const CompactStockCard = ({ stock, isWatchlisted, onToggleWatchlist }) => {
     
     setLoadingSummary(true);
     try {
-      const { data } = await axios.get(`http://localhost:5000/api/stocks/${stock.symbol}/earnings`);
+      const { data } = await axios.get(`https://stock-tracker-project.onrender.com/api/stocks/${stock.symbol}/earnings`);
       setSummary(data.summary);
     } catch (error) {
       console.error("Error fetching summary:", error);

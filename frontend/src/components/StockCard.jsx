@@ -28,7 +28,7 @@ const StockCard = ({ stock, isWatchlisted, onToggleWatchlist }) => {
       const base64Image = canvas.toDataURL("image/png");
 
       // 2. Send image to backend proxy
-      const { data } = await axios.post('http://localhost:5000/api/ai/vision', { image: base64Image });
+      const { data } = await axios.post('https://stock-tracker-project.onrender.com/api/ai/vision', { image: base64Image });
       setAnalysis(data.answer);
     } catch (error) {
       console.error("Error analyzing chart:", error);

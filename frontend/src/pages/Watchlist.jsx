@@ -19,7 +19,7 @@ const Watchlist = () => {
   const fetchWatchlist = async () => {
     setLoading(true);
     try {
-      const { data } = await axios.get('http://localhost:5000/api/stocks/watchlist', config);
+      const { data } = await axios.get('https://stock-tracker-project.onrender.com/api/stocks/watchlist', config);
       setWatchlistStocks(data);
     } catch (error) {
       console.error('Error fetching watchlist:', error);
@@ -33,7 +33,7 @@ const Watchlist = () => {
 
   const handleRemoveFromWatchlist = async (symbol) => {
     try {
-      await axios.delete(`http://localhost:5000/api/stocks/watchlist/${symbol}`, config);
+      await axios.delete(`https://stock-tracker-project.onrender.com/api/stocks/watchlist/${symbol}`, config);
       // Update state locally to immediately remove the item
       setWatchlistStocks(watchlistStocks.filter(stock => stock.symbol !== symbol));
     } catch (error) {
@@ -49,7 +49,7 @@ const Watchlist = () => {
       const symbols = watchlistStocks.map(s => `${s.name} (${s.symbol})`).join(', ');
       const question = `Analyze this stock portfolio concisely in 2-3 short paragraphs, mentioning diversification, risks, and overall outlook. Do not use formatting like markdown bolding if possible. Portfolio: ${symbols}`;
       
-      const response = await fetch('http://localhost:5000/api/ai', {
+      const response = await fetch('https://stock-tracker-project.onrender.com/api/ai', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

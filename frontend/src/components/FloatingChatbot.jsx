@@ -21,12 +21,12 @@ const FloatingChatbot = () => {
     setIsLoading(true);
 
     try {
-      let url = 'http://localhost:5000/api/ai';
+      let url = 'https://stock-tracker-project.onrender.com/api/ai';
       let config = {};
       
       // If user is logged in, use the RAG endpoint to get personalized answers
       if (user) {
-        url = 'http://localhost:5000/api/ai/rag';
+        url = 'https://stock-tracker-project.onrender.com/api/ai/rag';
         config = { headers: { Authorization: `Bearer ${user.token}` } };
       }
 

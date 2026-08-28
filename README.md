@@ -1,4 +1,4 @@
-# Stock Price Project
+﻿# Stock Price Project
 
 This is a full-stack web application with a React frontend and a Node.js backend for tracking and analyzing stock prices.
 

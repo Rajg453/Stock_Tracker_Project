@@ -9,7 +9,7 @@ const NewsFeed = () => {
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const { data } = await axios.get('http://localhost:5000/api/stocks/news/market');
+        const { data } = await axios.get('https://stock-tracker-project.onrender.com/api/stocks/news/market');
         setNews(data.slice(0, 6)); // Fetch a bit more for the sidebar
       } catch (error) {
         console.error("Error fetching news:", error);

@@ -37,11 +37,11 @@ const Dashboard = () => {
   const fetchStocksAndWatchlist = async () => {
     setLoading(true);
     try {
-      const { data: allStocks } = await axios.get('http://localhost:5000/api/stocks');
+      const { data: allStocks } = await axios.get('https://stock-tracker-project.onrender.com/api/stocks');
       setStocks(allStocks);
 
       if (user) {
-        const { data: watchlisted } = await axios.get('http://localhost:5000/api/stocks/watchlist', config);
+        const { data: watchlisted } = await axios.get('https://stock-tracker-project.onrender.com/api/stocks/watchlist', config);
         setWatchlistIds(watchlisted.map(stock => stock.symbol));
       }
     } catch (error) {
@@ -54,7 +54,7 @@ const Dashboard = () => {
     fetchStocksAndWatchlist();
     
     // Set up WebSocket connection
-    const socket = io('http://localhost:5000');
+    const socket = io('https://stock-tracker-project.onrender.com');
     
     socket.on('priceUpdate', (updatedStocks) => {
       setStocks(prevStocks => {
@@ -89,10 +89,10 @@ const Dashboard = () => {
   const handleToggleWatchlist = async (symbol) => {
     try {
       if (watchlistIds.includes(symbol)) {
-        await axios.delete(`http://localhost:5000/api/stocks/watchlist/${symbol}`, config);
+        await axios.delete(`https://stock-tracker-project.onrender.com/api/stocks/watchlist/${symbol}`, config);
         setWatchlistIds(watchlistIds.filter(id => id !== symbol));
       } else {
-        await axios.post(`http://localhost:5000/api/stocks/watchlist/${symbol}`, {}, config);
+        await axios.post(`https://stock-tracker-project.onrender.com/api/stocks/watchlist/${symbol}`, {}, config);
         setWatchlistIds([...watchlistIds, symbol]);
       }
     } catch (error) {
@@ -102,7 +102,7 @@ const Dashboard = () => {
 
   const refreshPrices = async () => {
     try {
-      await axios.post('http://localhost:5000/api/stocks/fetch');
+      await axios.post('https://stock-tracker-project.onrender.com/api/stocks/fetch');
       fetchStocksAndWatchlist();
     } catch (error) {
       console.error('Error refreshing prices:', error);

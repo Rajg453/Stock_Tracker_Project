@@ -18,7 +18,7 @@ const AiAdvisor = () => {
     try {
       // 3. Instead of initializing Google AI directly in the browser (which exposes keys),
       // we now send a POST request to our new secure backend route.
-      const response = await fetch('http://localhost:5000/api/ai', {
+      const response = await fetch('https://stock-tracker-project.onrender.com/api/ai', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

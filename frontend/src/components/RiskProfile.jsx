@@ -19,7 +19,7 @@ const RiskProfile = ({ watchlistIds }) => {
       setLoading(true);
       try {
         const config = { headers: { Authorization: `Bearer ${user.token}` } };
-        const { data } = await axios.get('http://localhost:5000/api/stocks/watchlist/risk', config);
+        const { data } = await axios.get('https://stock-tracker-project.onrender.com/api/stocks/watchlist/risk', config);
         setRiskData(data);
       } catch (error) {
         console.error("Error fetching risk profile", error);

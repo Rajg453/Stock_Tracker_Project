@@ -9,7 +9,7 @@ const StockChart = ({ symbol, isIncreasing }) => {
   useEffect(() => {
     const fetchHistory = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/stocks/${symbol}/history`);
+        const response = await axios.get(`https://stock-tracker-project.onrender.com/api/stocks/${symbol}/history`);
         // Format the data for recharts
         const formattedData = response.data.map(item => ({
           date: new Date(item.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),

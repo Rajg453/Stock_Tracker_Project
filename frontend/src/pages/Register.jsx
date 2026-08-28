@@ -10,14 +10,17 @@ const Register = () => {
   const navigate = useNavigate();
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       await register(username, password);
       navigate('/');
     } catch (err) {
       setError(err.response?.data?.message || 'Registration failed');
+      setLoading(false);
     }
   };
 
@@ -58,7 +61,9 @@ const Register = () => {
               {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
           </div>
-          <button type="submit" className="btn" style={{ width: '100%' }}>Sign Up</button>
+          <button type="submit" className="btn" style={{ width: '100%' }} disabled={loading}>
+            {loading ? 'Signing up...' : 'Sign Up'}
+          </button>
         </form>
         <p style={{ textAlign: 'center', marginTop: '20px', color: '#94a3b8' }}>
           Already have an account? <Link to="/login" style={{ color: 'var(--accent-color)' }}>Login</Link>
