@@ -11,6 +11,8 @@ import authRoutes from './routes/authRoutes.js';
 import stockRoutes from './routes/stockRoutes.js';
 // 1. Import our newly created AI routes so the server knows about them.
 import aiRoutes from './routes/aiRoutes.js';
+// 2. Import the cron jobs initialization function
+import { initCronJobs } from './jobs/cronJobs.js';
 
 dotenv.config();
 
@@ -41,6 +43,9 @@ app.get('/', (req, res) => {
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
+  
+  // Start the background cron jobs
+  initCronJobs();
   
   // Start WebSocket background worker for real-time prices
   setInterval(async () => {

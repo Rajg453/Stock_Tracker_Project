@@ -21,12 +21,13 @@ const FloatingChatbot = () => {
     setIsLoading(true);
 
     try {
-      let url = 'https://stock-tracker-project.onrender.com/api/ai';
+      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+      let url = `${API_URL}/ai`;
       let config = {};
       
       // If user is logged in, use the RAG endpoint to get personalized answers
       if (user) {
-        url = 'https://stock-tracker-project.onrender.com/api/ai/rag';
+        url = `${API_URL}/ai/rag`;
         config = { headers: { Authorization: `Bearer ${user.token}` } };
       }
 
