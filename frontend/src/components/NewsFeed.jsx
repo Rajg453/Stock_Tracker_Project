@@ -6,10 +6,12 @@ const NewsFeed = () => {
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const { data } = await axios.get('https://stock-tracker-project.onrender.com/api/stocks/news/market');
+        const { data } = await axios.get(`${API_URL}/stocks/news/market`);
         setNews(data.slice(0, 6)); // Fetch a bit more for the sidebar
       } catch (error) {
         console.error("Error fetching news:", error);
