@@ -19,6 +19,9 @@ const Dashboard = () => {
     return document.documentElement.getAttribute('data-theme') === 'light';
   });
 
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+  const SOCKET_URL = API_URL.replace('/api', '');
+
   const toggleTheme = () => {
     if (isLightMode) {
       document.documentElement.setAttribute('data-theme', 'dark');
@@ -37,11 +40,11 @@ const Dashboard = () => {
   const fetchStocksAndWatchlist = async () => {
     setLoading(true);
     try {
-      const { data: allStocks } = await axios.get('https://stock-tracker-project.onrender.com/api/stocks');
+      const { data: allStocks } = await axios.get(`${API_URL}/stocks`);
       setStocks(allStocks);
 
       if (user) {
-        const { data: watchlisted } = await axios.get('https://stock-tracker-project.onrender.com/api/stocks/watchlist', config);
+        const { data: watchlisted } = await axios.get(`${API_URL}/stocks/watchlist`, config);
         setWatchlistIds(watchlisted.map(stock => stock.symbol));
       }
     } catch (error) {
@@ -54,7 +57,7 @@ const Dashboard = () => {
     fetchStocksAndWatchlist();
     
     // Set up WebSocket connection
-    const socket = io('https://stock-tracker-project.onrender.com');
+    const socket = io(SOCKET_URL);
     
     socket.on('priceUpdate', (updatedStocks) => {
       setStocks(prevStocks => {
@@ -89,10 +92,10 @@ const Dashboard = () => {
   const handleToggleWatchlist = async (symbol) => {
     try {
       if (watchlistIds.includes(symbol)) {
-        await axios.delete(`https://stock-tracker-project.onrender.com/api/stocks/watchlist/${symbol}`, config);
+        await axios.delete(`${API_URL}/stocks/watchlist/${symbol}`, config);
         setWatchlistIds(watchlistIds.filter(id => id !== symbol));
       } else {
-        await axios.post(`https://stock-tracker-project.onrender.com/api/stocks/watchlist/${symbol}`, {}, config);
+        await axios.post(`${API_URL}/stocks/watchlist/${symbol}`, {}, config);
         setWatchlistIds([...watchlistIds, symbol]);
       }
     } catch (error) {
@@ -102,7 +105,7 @@ const Dashboard = () => {
 
   const refreshPrices = async () => {
     try {
-      await axios.post('https://stock-tracker-project.onrender.com/api/stocks/fetch');
+      await axios.post(`${API_URL}/stocks/fetch`);
       fetchStocksAndWatchlist();
     } catch (error) {
       console.error('Error refreshing prices:', error);

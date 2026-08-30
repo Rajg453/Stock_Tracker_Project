@@ -1,5 +1,6 @@
 import express from 'express';
-import yahooFinance from 'yahoo-finance2';
+import YahooFinance from 'yahoo-finance2';
+const yahooFinance = new YahooFinance();
 import Stock from '../models/Stock.js';
 import Watchlist from '../models/Watchlist.js';
 import { protect } from '../middleware/authMiddleware.js';
