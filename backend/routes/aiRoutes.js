@@ -64,7 +64,7 @@ router.post('/', async (req, res) => {
         console.error("AI Route Exception:", error);
         
         // 14. Send a 500 Internal Server Error back to the frontend.
-        res.status(500).json({ error: 'Internal server error while talking to AI.' });
+        res.status(500).json({ error: `Internal server error while talking to AI: ${error.message}` });
     }
 });
 
@@ -124,7 +124,7 @@ router.post('/rag', protect, async (req, res) => {
         res.json({ answer: answerText });
     } catch (error) {
         console.error("RAG Route Exception:", error);
-        res.status(500).json({ error: 'Internal server error while talking to AI.' });
+        res.status(500).json({ error: `Internal server error while talking to AI: ${error.message}` });
     }
 });
 
