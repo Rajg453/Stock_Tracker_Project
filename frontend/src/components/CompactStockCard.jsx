@@ -23,7 +23,10 @@ const CompactStockCard = ({ stock, isWatchlisted, onToggleWatchlist }) => {
     
     setLoadingSummary(true);
     try {
-      const { data } = await axios.get(`https://stock-tracker-project.onrender.com/api/stocks/${stock.symbol}/earnings`);
+      // Get the API URL from environment variables, fallback to localhost for development
+      
+      // Make a GET request to the backend to get AI summary for this specific stock
+      const { data } = await axios.get(`${API_URL}/stocks/${stock.symbol}/earnings`);
       setSummary(data.summary);
     } catch (error) {
       console.error("Error fetching summary:", error);

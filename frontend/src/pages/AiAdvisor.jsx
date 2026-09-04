@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 // We no longer import @google/generative-ai because the AI logic has been securely moved to the backend.
+import { API_URL } from '../config';
 
 const AiAdvisor = () => {
   // 1. We create 'state' variables to remember what the user typed and the AI's response
@@ -18,7 +19,8 @@ const AiAdvisor = () => {
     try {
       // 3. Instead of initializing Google AI directly in the browser (which exposes keys),
       // we now send a POST request to our new secure backend route.
-      const response = await fetch('https://stock-tracker-project.onrender.com/api/ai', {
+      
+      const response = await fetch(`${API_URL}/ai`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

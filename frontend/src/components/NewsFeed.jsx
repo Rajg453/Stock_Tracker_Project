@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Newspaper, ExternalLink } from 'lucide-react';
+import { API_URL } from '../config';
 
 const NewsFeed = () => {
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+  
 
   useEffect(() => {
     const fetchNews = async () => {

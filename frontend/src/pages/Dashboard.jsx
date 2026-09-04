@@ -7,6 +7,7 @@ import NewsFeed from '../components/NewsFeed';
 import RiskProfile from '../components/RiskProfile';
 import { AuthContext } from '../context/AuthContext';
 import { RefreshCw, Sun, Moon } from 'lucide-react';
+import { API_URL } from '../config';
 
 const Dashboard = () => {
   const [stocks, setStocks] = useState([]);
@@ -19,7 +20,7 @@ const Dashboard = () => {
     return document.documentElement.getAttribute('data-theme') === 'light';
   });
 
-  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+  
   const SOCKET_URL = API_URL.replace('/api', '');
 
   const toggleTheme = () => {

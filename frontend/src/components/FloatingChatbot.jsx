@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { MessageCircle, X, Send, Loader2 } from 'lucide-react';
+import { API_URL } from '../config';
 import { AuthContext } from '../context/AuthContext';
 import axios from 'axios';
 
@@ -21,7 +22,7 @@ const FloatingChatbot = () => {
     setIsLoading(true);
 
     try {
-      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+      
       let url = `${API_URL}/ai`;
       let config = {};
       

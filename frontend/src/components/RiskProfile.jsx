@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { ShieldAlert, ShieldCheck, Shield, Loader2 } from 'lucide-react';
 import { AuthContext } from '../context/AuthContext';
+import { API_URL } from '../config';
 
 const RiskProfile = ({ watchlistIds }) => {
   const [riskData, setRiskData] = useState(null);
@@ -19,7 +20,8 @@ const RiskProfile = ({ watchlistIds }) => {
       setLoading(true);
       try {
         const config = { headers: { Authorization: `Bearer ${user.token}` } };
-        const { data } = await axios.get('https://stock-tracker-project.onrender.com/api/stocks/watchlist/risk', config);
+        
+        const { data } = await axios.get(`${API_URL}/stocks/watchlist/risk`, config);
         setRiskData(data);
       } catch (error) {
         console.error("Error fetching risk profile", error);

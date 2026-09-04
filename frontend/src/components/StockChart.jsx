@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { LineChart, Line, Tooltip, ResponsiveContainer } from 'recharts';
+import { API_URL } from '../config';
 
 const StockChart = ({ symbol, isIncreasing }) => {
   const [data, setData] = useState([]);
@@ -9,7 +10,8 @@ const StockChart = ({ symbol, isIncreasing }) => {
   useEffect(() => {
     const fetchHistory = async () => {
       try {
-        const response = await axios.get(`https://stock-tracker-project.onrender.com/api/stocks/${symbol}/history`);
+        
+        const response = await axios.get(`${API_URL}/stocks/${symbol}/history`);
         // Format the data for recharts
         const formattedData = response.data.map(item => ({
           date: new Date(item.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),

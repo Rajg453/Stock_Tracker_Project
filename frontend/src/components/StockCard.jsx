@@ -3,6 +3,7 @@ import { Star, TrendingUp, TrendingDown, Eye, Loader2 } from 'lucide-react';
 import html2canvas from 'html2canvas';
 import axios from 'axios';
 import StockChart from './StockChart';
+import { API_URL } from '../config';
 
 const StockCard = ({ stock, isWatchlisted, onToggleWatchlist }) => {
   const [analysis, setAnalysis] = useState(null);
@@ -27,8 +28,10 @@ const StockCard = ({ stock, isWatchlisted, onToggleWatchlist }) => {
       const canvas = await html2canvas(chartRef.current, { backgroundColor: null });
       const base64Image = canvas.toDataURL("image/png");
 
+      // Get the API URL from environment variables, fallback to localhost for development
+      
       // 2. Send image to backend proxy
-      const { data } = await axios.post('https://stock-tracker-project.onrender.com/api/ai/vision', { image: base64Image });
+      const { data } = await axios.post(`${API_URL}/ai/vision`, { image: base64Image });
       setAnalysis(data.answer);
     } catch (error) {
       console.error("Error analyzing chart:", error);

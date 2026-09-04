@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
+import { API_URL } from '../config';
 
 // Create a Context for global state management
 export const AuthContext = createContext();
@@ -18,7 +19,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   // Define the base URL for API requests. It uses an environment variable if available, otherwise defaults to localhost.
-  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+  
 
   // Login function
   const login = async (username, password) => {
